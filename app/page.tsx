@@ -100,19 +100,17 @@ export default function Home() {
         padding: '120px 20px 60px 20px',
         textAlign: 'center'
       }}>
-        {/* Glittering star background - only show in dark mode */}
-        {isDarkMode && (
-          <div style={{
-            position: 'absolute',
-            inset: 0,
-            width: '100%',
-            height: '100%',
-            zIndex: 0,
-            pointerEvents: 'none',
-          }}>
-            <StarsBackground />
-          </div>
-        )}
+        {/* Glittering star background - show in both modes */}
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          zIndex: 0,
+          pointerEvents: 'none',
+        }}>
+          <StarsBackground isDarkMode={isDarkMode} />
+        </div>
         <div style={{
           position: 'fixed',
           top: 0,
@@ -182,7 +180,7 @@ export default function Home() {
             onMouseOut={e => e.currentTarget.style.color = isDarkMode ? '#d1d5db' : '#374151'}>
               Features
             </button>
-            <button onClick={() => scrollToSection('pricing')} style={{
+            <button onClick={() => scrollToSection('how-it-works')} style={{
               color: isDarkMode ? '#d1d5db' : '#374151',
               textDecoration: 'none',
               fontSize: isMobile ? 14 : 16,
@@ -200,7 +198,7 @@ export default function Home() {
             className={isMobile ? mobileClasses.button : ''}
             onMouseOver={e => e.currentTarget.style.color = isDarkMode ? '#fff' : '#111827'}
             onMouseOut={e => e.currentTarget.style.color = isDarkMode ? '#d1d5db' : '#374151'}>
-              Pricing
+              How It Works
             </button>
             <button onClick={() => scrollToSection('demo')} style={{
               color: isDarkMode ? '#d1d5db' : '#374151',
@@ -218,6 +216,23 @@ export default function Home() {
             onMouseOver={e => e.currentTarget.style.color = isDarkMode ? '#fff' : '#111827'}
             onMouseOut={e => e.currentTarget.style.color = isDarkMode ? '#d1d5db' : '#374151'}>
               Demo
+            </button>
+            <button onClick={() => scrollToSection('pricing')} style={{
+              color: isDarkMode ? '#d1d5db' : '#374151',
+              textDecoration: 'none',
+              fontSize: isMobile ? 14 : 16,
+              fontWeight: 500,
+              fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+              letterSpacing: '-0.01em',
+              transition: 'color 0.2s',
+              background: 'transparent',
+              border: 'none',
+              cursor: 'pointer',
+            }}
+            className={isMobile ? mobileClasses.button : ''}
+            onMouseOver={e => e.currentTarget.style.color = isDarkMode ? '#fff' : '#111827'}
+            onMouseOut={e => e.currentTarget.style.color = isDarkMode ? '#d1d5db' : '#374151'}>
+              Pricing
             </button>
           </div>
           
@@ -409,7 +424,7 @@ export default function Home() {
               onMouseOut={e => e.currentTarget.style.background = 'transparent'}>
                 Features
               </button>
-              <button onClick={() => { scrollToSection('pricing'); setMobileMenuOpen(false); }} style={{
+              <button onClick={() => { scrollToSection('how-it-works'); setMobileMenuOpen(false); }} style={{
                 background: 'transparent',
                 border: 'none',
                 color: isDarkMode ? '#fff' : '#111827',
@@ -424,7 +439,7 @@ export default function Home() {
               }}
               onMouseOver={e => e.currentTarget.style.background = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)'}
               onMouseOut={e => e.currentTarget.style.background = 'transparent'}>
-                Pricing
+                How It Works
               </button>
               <button onClick={() => { scrollToSection('demo'); setMobileMenuOpen(false); }} style={{
                 background: 'transparent',
@@ -442,6 +457,23 @@ export default function Home() {
               onMouseOver={e => e.currentTarget.style.background = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)'}
               onMouseOut={e => e.currentTarget.style.background = 'transparent'}>
                 Demo
+              </button>
+              <button onClick={() => { scrollToSection('pricing'); setMobileMenuOpen(false); }} style={{
+                background: 'transparent',
+                border: 'none',
+                color: isDarkMode ? '#fff' : '#111827',
+                    fontSize: 20,
+                fontWeight: 600,
+                cursor: 'pointer',
+                padding: '12px 16px',
+                borderRadius: '12px',
+                transition: 'all 0.2s',
+                      width: '100%',
+                textAlign: 'center'
+              }}
+              onMouseOver={e => e.currentTarget.style.background = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)'}
+              onMouseOut={e => e.currentTarget.style.background = 'transparent'}>
+                Pricing
               </button>
               <button onClick={() => { scrollToSection('login'); setMobileMenuOpen(false); }} style={{
                 background: 'transparent',
@@ -667,6 +699,18 @@ export default function Home() {
         background: isDarkMode ? 'linear-gradient(180deg, #000000 0%, #0a0a0a 100%)' : 'linear-gradient(180deg, #ffffff 0%, #f8fafc 100%)',
         position: 'relative'
       }}>
+        {/* Stars background */}
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          zIndex: 0,
+          pointerEvents: 'none',
+          opacity: 0.3
+        }}>
+          <StarsBackground isDarkMode={isDarkMode} />
+        </div>
           <div style={{ 
         maxWidth: 1200,
           margin: '0 auto',
@@ -942,11 +986,23 @@ fetch('https://api.scrollie.com/v1/settings', {
       </div>
 
       {/* How It Works Section - Simple and Clear */}
-      <div style={{
+      <div id="how-it-works" style={{
         padding: isMobile ? '80px 20px' : '120px 40px',
         background: isDarkMode ? 'linear-gradient(180deg, #000000 0%, #0a0a0a 100%)' : 'linear-gradient(180deg, #ffffff 0%, #f8fafc 100%)',
         position: 'relative'
       }}>
+        {/* Stars background */}
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          zIndex: 0,
+          pointerEvents: 'none',
+          opacity: 0.2
+        }}>
+          <StarsBackground isDarkMode={isDarkMode} />
+        </div>
         <div style={{ maxWidth: 1200, margin: '0 auto', textAlign: 'center' }}>
           <h2 style={{ fontSize: isMobile ? 32 : 48, fontWeight: 700, marginBottom: 16, color: isDarkMode ? '#fff' : '#111827', fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif', letterSpacing: '-0.02em' }}>
             How It Works
@@ -999,129 +1055,7 @@ fetch('https://api.scrollie.com/v1/settings', {
         </div>
       </div>
 
-      {/* Simple Benefits Section */}
-      <div style={{
-        padding: isMobile ? '80px 20px' : '120px 40px',
-        background: isDarkMode ? 'linear-gradient(180deg, #0a0a0a 0%, #000000 100%)' : 'linear-gradient(180deg, #f8fafc 0%, #ffffff 100%)',
-        position: 'relative'
-      }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto', textAlign: 'center' }}>
-          <h2 style={{ fontSize: isMobile ? 32 : 48, fontWeight: 700, marginBottom: 16, color: isDarkMode ? '#fff' : '#111827', fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif', letterSpacing: '-0.02em' }}>
-            Why Choose SCROLLIE?
-          </h2>
-          <p style={{ color: isDarkMode ? '#9ca3af' : '#6b7280', fontSize: isMobile ? 16 : 20, maxWidth: 600, margin: '0 auto 64px auto', lineHeight: 1.6 }}>
-            Everything you need in one simple tool
-          </p>
 
-          {/* Simple Benefits Grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(2, 1fr)', gap: isMobile ? 32 : 48 }}>
-            {/* Benefit 1 */}
-            <div style={{ background: isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.8)', borderRadius: 16, padding: isMobile ? '32px' : '40px', border: `1px solid ${isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`, backdropFilter: 'blur(10px)', textAlign: 'center' }}>
-              <div style={{ fontSize: 48, marginBottom: 16 }}>⚡</div>
-              <h3 style={{ fontSize: isMobile ? 20 : 24, fontWeight: 600, marginBottom: 16, color: isDarkMode ? '#fff' : '#111827' }}>
-                Super Fast
-              </h3>
-              <p style={{ color: isDarkMode ? '#d1d5db' : '#374151', lineHeight: 1.6, fontSize: isMobile ? 14 : 16 }}>
-                Create carousels in 5 minutes instead of hours. No design skills needed.
-          </p>
-        </div>
-
-            {/* Benefit 2 */}
-            <div style={{ background: isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.8)', borderRadius: 16, padding: isMobile ? '32px' : '40px', border: `1px solid ${isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`, backdropFilter: 'blur(10px)', textAlign: 'center' }}>
-              <div style={{ fontSize: 48, marginBottom: 16 }}>🎤</div>
-              <h3 style={{ fontSize: isMobile ? 20 : 24, fontWeight: 600, marginBottom: 16, color: isDarkMode ? '#fff' : '#111827' }}>
-                AI Voice
-              </h3>
-              <p style={{ color: isDarkMode ? '#d1d5db' : '#374151', lineHeight: 1.6, fontSize: isMobile ? 14 : 16 }}>
-                Natural-sounding voiceovers that make your content more engaging.
-              </p>
-          </div>
-          
-            {/* Benefit 3 */}
-            <div style={{ background: isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.8)', borderRadius: 16, padding: isMobile ? '32px' : '40px', border: `1px solid ${isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`, backdropFilter: 'blur(10px)', textAlign: 'center' }}>
-              <div style={{ fontSize: 48, marginBottom: 16 }}>📱</div>
-              <h3 style={{ fontSize: isMobile ? 20 : 24, fontWeight: 600, marginBottom: 16, color: isDarkMode ? '#fff' : '#111827' }}>
-                Mobile Ready
-              </h3>
-              <p style={{ color: isDarkMode ? '#d1d5db' : '#374151', lineHeight: 1.6, fontSize: isMobile ? 14 : 16 }}>
-                Perfect for Instagram, TikTok, and all social media platforms.
-              </p>
-          </div>
-          
-            {/* Benefit 4 */}
-            <div style={{ background: isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.8)', borderRadius: 16, padding: isMobile ? '32px' : '40px', border: `1px solid ${isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`, backdropFilter: 'blur(10px)', textAlign: 'center' }}>
-              <div style={{ fontSize: 48, marginBottom: 16 }}>💰</div>
-              <h3 style={{ fontSize: isMobile ? 20 : 24, fontWeight: 600, marginBottom: 16, color: isDarkMode ? '#fff' : '#111827' }}>
-                Save Money
-              </h3>
-              <p style={{ color: isDarkMode ? '#d1d5db' : '#374151', lineHeight: 1.6, fontSize: isMobile ? 14 : 16 }}>
-                No need to hire designers or voice actors. Do it all yourself.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Simple User Stories Section */}
-      <div style={{
-        padding: isMobile ? '80px 20px' : '120px 40px',
-        background: isDarkMode ? 'linear-gradient(180deg, #000000 0%, #0a0a0a 100%)' : 'linear-gradient(180deg, #ffffff 0%, #f8fafc 100%)',
-        position: 'relative'
-      }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto', textAlign: 'center' }}>
-          <h2 style={{ fontSize: isMobile ? 32 : 48, fontWeight: 700, marginBottom: 16, color: isDarkMode ? '#fff' : '#111827', fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif', letterSpacing: '-0.02em' }}>
-            Real People, Real Results
-          </h2>
-          <p style={{ color: isDarkMode ? '#9ca3af' : '#6b7280', fontSize: isMobile ? 16 : 20, maxWidth: 600, margin: '0 auto 64px auto', lineHeight: 1.6 }}>
-            See how different people use SCROLLIE to grow their business
-          </p>
-
-          {/* User Stories Grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: isMobile ? 32 : 48 }}>
-            {/* Story 1 */}
-            <div style={{ background: isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.8)', borderRadius: 16, padding: isMobile ? '32px' : '40px', border: `1px solid ${isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`, backdropFilter: 'blur(10px)', textAlign: 'center' }}>
-              <div style={{ fontSize: 48, marginBottom: 16 }}>👩‍💼</div>
-              <h3 style={{ fontSize: isMobile ? 20 : 24, fontWeight: 600, marginBottom: 16, color: isDarkMode ? '#fff' : '#111827' }}>
-                Sarah - Small Business Owner
-              </h3>
-              <p style={{ color: isDarkMode ? '#d1d5db' : '#374151', lineHeight: 1.6, fontSize: isMobile ? 14 : 16, marginBottom: 16 }}>
-                "I used to spend 3 hours creating content. Now I do it in 15 minutes and get more engagement!"
-              </p>
-              <div style={{ color: '#22c55e', fontWeight: 600, fontSize: isMobile ? 14 : 16 }}>
-                +300% more followers
-            </div>
-              </div>
-              
-            {/* Story 2 */}
-            <div style={{ background: isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.8)', borderRadius: 16, padding: isMobile ? '32px' : '40px', border: `1px solid ${isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`, backdropFilter: 'blur(10px)', textAlign: 'center' }}>
-              <div style={{ fontSize: 48, marginBottom: 16 }}>👨‍💻</div>
-              <h3 style={{ fontSize: isMobile ? 20 : 24, fontWeight: 600, marginBottom: 16, color: isDarkMode ? '#fff' : '#111827' }}>
-                Mike - Content Creator
-              </h3>
-              <p style={{ color: isDarkMode ? '#d1d5db' : '#374151', lineHeight: 1.6, fontSize: isMobile ? 14 : 16, marginBottom: 16 }}>
-                "The AI voice makes my content sound professional. My audience loves it!"
-              </p>
-              <div style={{ color: '#22c55e', fontWeight: 600, fontSize: isMobile ? 14 : 16 }}>
-                +500% engagement
-              </div>
-              </div>
-              
-            {/* Story 3 */}
-            <div style={{ background: isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.8)', borderRadius: 16, padding: isMobile ? '32px' : '40px', border: `1px solid ${isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`, backdropFilter: 'blur(10px)', textAlign: 'center' }}>
-              <div style={{ fontSize: 48, marginBottom: 16 }}>🏢</div>
-              <h3 style={{ fontSize: isMobile ? 20 : 24, fontWeight: 600, marginBottom: 16, color: isDarkMode ? '#fff' : '#111827' }}>
-                Tech Company
-              </h3>
-              <p style={{ color: isDarkMode ? '#d1d5db' : '#374151', lineHeight: 1.6, fontSize: isMobile ? 14 : 16, marginBottom: 16 }}>
-                "We save $10,000 per month on content creation. SCROLLIE pays for itself!"
-              </p>
-              <div style={{ color: '#22c55e', fontWeight: 600, fontSize: isMobile ? 14 : 16 }}>
-                $10K saved monthly
-              </div>
-            </div>
-              </div>
-            </div>
-          </div>
 
       {/* Simple FAQ Section */}
           <div style={{
@@ -1232,6 +1166,18 @@ fetch('https://api.scrollie.com/v1/settings', {
         background: isDarkMode ? 'linear-gradient(180deg, #000000 0%, #0a0a0a 100%)' : 'linear-gradient(180deg, #ffffff 0%, #f8fafc 100%)',
         position: 'relative'
       }}>
+        {/* Stars background */}
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          zIndex: 0,
+          pointerEvents: 'none',
+          opacity: 0.2
+        }}>
+          <StarsBackground isDarkMode={isDarkMode} />
+        </div>
         <div style={{ maxWidth: 1200, margin: '0 auto', textAlign: 'center' }}>
           <h2 style={{ fontSize: isMobile ? 32 : 48, fontWeight: 700, marginBottom: 16, color: isDarkMode ? '#fff' : '#111827', fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif', letterSpacing: '-0.02em' }}>
             See SCROLLIE in Action
@@ -1291,106 +1237,7 @@ fetch('https://api.scrollie.com/v1/settings', {
           </div>
         </div>
 
-      {/* Simple Contact Section */}
-        <div style={{
-        padding: isMobile ? '80px 20px' : '120px 40px',
-        background: isDarkMode ? 'linear-gradient(180deg, #0a0a0a 0%, #000000 100%)' : 'linear-gradient(180deg, #f8fafc 0%, #ffffff 100%)',
-        position: 'relative'
-      }}>
-        <div style={{ maxWidth: 800, margin: '0 auto', textAlign: 'center' }}>
-          <h2 style={{ fontSize: isMobile ? 32 : 48, fontWeight: 700, marginBottom: 16, color: isDarkMode ? '#fff' : '#111827', fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif', letterSpacing: '-0.02em' }}>
-            Get Started Today
-          </h2>
-          <p style={{ color: isDarkMode ? '#9ca3af' : '#6b7280', fontSize: isMobile ? 16 : 20, maxWidth: 600, margin: '0 auto 48px auto', lineHeight: 1.6 }}>
-            Join thousands of creators who are already using SCROLLIE
-          </p>
 
-          {/* Contact Buttons */}
-          <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: isMobile ? 16 : 24, justifyContent: 'center', alignItems: 'center', marginBottom: 48 }}>
-            <button style={{
-              background: 'linear-gradient(135deg, #a78bfa 0%, #ec4899 100%)',
-              color: '#fff',
-              fontWeight: 700,
-              fontSize: isMobile ? 16 : 18,
-              border: 'none',
-              borderRadius: isMobile ? 16 : 12,
-              padding: isMobile ? '16px 24px' : '16px 32px',
-              cursor: 'pointer',
-              transition: 'all 0.3s',
-              fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-              letterSpacing: '-0.01em'
-            }}
-            onMouseOver={e => {
-              if (!isMobile) {
-              e.currentTarget.style.transform = 'translateY(-2px)';
-                e.currentTarget.style.boxShadow = '0 8px 24px rgba(168,139,250,0.3)';
-              }
-            }}
-            onMouseOut={e => {
-              if (!isMobile) {
-              e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = 'none';
-              }
-            }}>
-              Start Free Trial
-            </button>
-            <button style={{
-              background: 'transparent',
-              color: isDarkMode ? '#d1d5db' : '#374151',
-              fontWeight: 600,
-              fontSize: isMobile ? 16 : 18,
-              border: `2px solid ${isDarkMode ? 'rgba(156, 163, 175, 0.3)' : 'rgba(55, 65, 81, 0.3)'}`,
-              borderRadius: isMobile ? 16 : 12,
-              padding: isMobile ? '14px 22px' : '14px 30px',
-              cursor: 'pointer',
-              transition: 'all 0.3s',
-              fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-              letterSpacing: '-0.01em'
-            }}
-            onMouseOver={e => { 
-              e.currentTarget.style.borderColor = isDarkMode ? 'rgba(156, 163, 175, 0.6)' : 'rgba(55, 65, 81, 0.6)';
-              e.currentTarget.style.color = isDarkMode ? '#fff' : '#111827';
-            }}
-            onMouseOut={e => { 
-              e.currentTarget.style.borderColor = isDarkMode ? 'rgba(156, 163, 175, 0.3)' : 'rgba(55, 65, 81, 0.3)';
-              e.currentTarget.style.color = isDarkMode ? '#d1d5db' : '#374151';
-            }}>
-              Contact Sales
-            </button>
-            </div>
-            
-          {/* Contact Info */}
-          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: isMobile ? 24 : 32 }}>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: 32, marginBottom: 16 }}>📧</div>
-              <h4 style={{ fontSize: isMobile ? 16 : 18, fontWeight: 600, marginBottom: 8, color: isDarkMode ? '#fff' : '#111827' }}>
-                Email Support
-              </h4>
-              <p style={{ color: isDarkMode ? '#9ca3af' : '#6b7280', fontSize: isMobile ? 14 : 16 }}>
-                help@scrollie.com
-              </p>
-            </div>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: 32, marginBottom: 16 }}>💬</div>
-              <h4 style={{ fontSize: isMobile ? 16 : 18, fontWeight: 600, marginBottom: 8, color: isDarkMode ? '#fff' : '#111827' }}>
-                Live Chat
-              </h4>
-              <p style={{ color: isDarkMode ? '#9ca3af' : '#6b7280', fontSize: isMobile ? 14 : 16 }}>
-                Available 24/7
-              </p>
-                </div>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ fontSize: 32, marginBottom: 16 }}>📚</div>
-              <h4 style={{ fontSize: isMobile ? 16 : 18, fontWeight: 600, marginBottom: 8, color: isDarkMode ? '#fff' : '#111827' }}>
-                Help Center
-              </h4>
-              <p style={{ color: isDarkMode ? '#9ca3af' : '#6b7280', fontSize: isMobile ? 14 : 16 }}>
-                Guides & Tutorials
-              </p>
-              </div>
-                </div>
-              </div>
-            </div>
             
       {/* Features Comparison Section */}
       <div id="pricing" style={{
@@ -1398,6 +1245,18 @@ fetch('https://api.scrollie.com/v1/settings', {
         background: isDarkMode ? 'linear-gradient(180deg, #000000 0%, #0a0a0a 100%)' : 'linear-gradient(180deg, #ffffff 0%, #f8fafc 100%)',
         position: 'relative'
       }}>
+        {/* Stars background */}
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          zIndex: 0,
+          pointerEvents: 'none',
+          opacity: 0.2
+        }}>
+          <StarsBackground isDarkMode={isDarkMode} />
+        </div>
         <div style={{ maxWidth: 1200, margin: '0 auto', textAlign: 'center' }}>
           <h2 style={{ fontSize: isMobile ? 32 : 48, fontWeight: 700, marginBottom: 16, color: isDarkMode ? '#fff' : '#111827', fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif', letterSpacing: '-0.02em' }}>
             SCROLLIE vs Other Tools
@@ -1533,69 +1392,7 @@ fetch('https://api.scrollie.com/v1/settings', {
       </div>
       </div>
 
-      {/* Getting Started Guide */}
-        <div style={{
-        padding: isMobile ? '80px 20px' : '120px 40px',
-        background: isDarkMode ? 'linear-gradient(180deg, #000000 0%, #0a0a0a 100%)' : 'linear-gradient(180deg, #ffffff 0%, #f8fafc 100%)',
-        position: 'relative'
-      }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto', textAlign: 'center' }}>
-          <h2 style={{ fontSize: isMobile ? 32 : 48, fontWeight: 700, marginBottom: 16, color: isDarkMode ? '#fff' : '#111827', fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif', letterSpacing: '-0.02em' }}>
-            Getting Started is Easy
-          </h2>
-          <p style={{ color: isDarkMode ? '#9ca3af' : '#6b7280', fontSize: isMobile ? 16 : 20, maxWidth: 600, margin: '0 auto 64px auto', lineHeight: 1.6 }}>
-            Follow these simple steps to create your first carousel
-          </p>
 
-          {/* Steps */}
-          <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(4, 1fr)', gap: isMobile ? 24 : 32 }}>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ width: 60, height: 60, borderRadius: '50%', background: 'linear-gradient(135deg, #a78bfa 0%, #ec4899 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px auto', fontSize: 24, color: '#fff' }}>
-                1
-              </div>
-              <h3 style={{ fontSize: isMobile ? 16 : 18, fontWeight: 600, marginBottom: 8, color: isDarkMode ? '#fff' : '#111827' }}>
-                Sign Up
-              </h3>
-              <p style={{ color: isDarkMode ? '#9ca3af' : '#6b7280', fontSize: isMobile ? 12 : 14 }}>
-                Create your free account in 30 seconds
-              </p>
-            </div>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ width: 60, height: 60, borderRadius: '50%', background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px auto', fontSize: 24, color: '#fff' }}>
-                2
-                </div>
-              <h3 style={{ fontSize: isMobile ? 16 : 18, fontWeight: 600, marginBottom: 8, color: isDarkMode ? '#fff' : '#111827' }}>
-                Add Content
-              </h3>
-              <p style={{ color: isDarkMode ? '#9ca3af' : '#6b7280', fontSize: isMobile ? 12 : 14 }}>
-                Paste any URL or write your content
-              </p>
-              </div>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ width: 60, height: 60, borderRadius: '50%', background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px auto', fontSize: 24, color: '#fff' }}>
-                3
-                </div>
-              <h3 style={{ fontSize: isMobile ? 16 : 18, fontWeight: 600, marginBottom: 8, color: isDarkMode ? '#fff' : '#111827' }}>
-                Customize
-              </h3>
-              <p style={{ color: isDarkMode ? '#9ca3af' : '#6b7280', fontSize: isMobile ? 12 : 14 }}>
-                Choose template and voice style
-              </p>
-              </div>
-            <div style={{ textAlign: 'center' }}>
-              <div style={{ width: 60, height: 60, borderRadius: '50%', background: 'linear-gradient(135deg, #ec4899 0%, #be185d 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px auto', fontSize: 24, color: '#fff' }}>
-                4
-                </div>
-              <h3 style={{ fontSize: isMobile ? 16 : 18, fontWeight: 600, marginBottom: 8, color: isDarkMode ? '#fff' : '#111827' }}>
-                Export
-              </h3>
-              <p style={{ color: isDarkMode ? '#9ca3af' : '#6b7280', fontSize: isMobile ? 12 : 14 }}>
-                Download and share your video
-              </p>
-              </div>
-            </div>
-            </div>
-          </div>
 
       {/* Login Section */}
       <div id="login" style={{
@@ -1743,48 +1540,62 @@ fetch('https://api.scrollie.com/v1/settings', {
                 Product
               </h4>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                <button onClick={() => scrollToSection('features')} style={{
-                  background: 'transparent',
-                  border: 'none',
-                color: isDarkMode ? '#9ca3af' : '#6b7280',
-                  fontSize: isMobile ? 14 : 16,
-                  textAlign: 'left',
-                  cursor: 'pointer',
-                  transition: 'color 0.2s',
-                  padding: 0
-                }}
-                onMouseOver={e => e.currentTarget.style.color = isDarkMode ? '#fff' : '#111827'}
-                onMouseOut={e => e.currentTarget.style.color = isDarkMode ? '#9ca3af' : '#6b7280'}>
-                  Features
-                </button>
-                <button onClick={() => scrollToSection('pricing')} style={{
-                  background: 'transparent',
-                  border: 'none',
-                  color: isDarkMode ? '#9ca3af' : '#6b7280',
-                  fontSize: isMobile ? 14 : 16,
-                  textAlign: 'left',
-                  cursor: 'pointer',
-                  transition: 'color 0.2s',
-                  padding: 0
-                }}
-                onMouseOver={e => e.currentTarget.style.color = isDarkMode ? '#fff' : '#111827'}
-                onMouseOut={e => e.currentTarget.style.color = isDarkMode ? '#9ca3af' : '#6b7280'}>
-                  Pricing
-                </button>
-                <button onClick={() => scrollToSection('demo')} style={{
-                  background: 'transparent',
-                  border: 'none',
-                  color: isDarkMode ? '#9ca3af' : '#6b7280',
-                  fontSize: isMobile ? 14 : 16,
-                  textAlign: 'left',
-                  cursor: 'pointer',
-                  transition: 'color 0.2s',
-                  padding: 0
-                }}
-                onMouseOver={e => e.currentTarget.style.color = isDarkMode ? '#fff' : '#111827'}
-                onMouseOut={e => e.currentTarget.style.color = isDarkMode ? '#9ca3af' : '#6b7280'}>
-                  Demo
-                </button>
+                            <button onClick={() => scrollToSection('features')} style={{
+              background: 'transparent',
+              border: 'none',
+            color: isDarkMode ? '#9ca3af' : '#6b7280',
+              fontSize: isMobile ? 14 : 16,
+              textAlign: 'left',
+            cursor: 'pointer',
+              transition: 'color 0.2s',
+              padding: 0
+            }}
+            onMouseOver={e => e.currentTarget.style.color = isDarkMode ? '#fff' : '#111827'}
+            onMouseOut={e => e.currentTarget.style.color = isDarkMode ? '#9ca3af' : '#6b7280'}>
+              Features
+            </button>
+            <button onClick={() => scrollToSection('how-it-works')} style={{
+              background: 'transparent',
+              border: 'none',
+              color: isDarkMode ? '#9ca3af' : '#6b7280',
+              fontSize: isMobile ? 14 : 16,
+              textAlign: 'left',
+              cursor: 'pointer',
+              transition: 'color 0.2s',
+              padding: 0
+            }}
+            onMouseOver={e => e.currentTarget.style.color = isDarkMode ? '#fff' : '#111827'}
+            onMouseOut={e => e.currentTarget.style.color = isDarkMode ? '#9ca3af' : '#6b7280'}>
+              How It Works
+            </button>
+            <button onClick={() => scrollToSection('demo')} style={{
+              background: 'transparent',
+              border: 'none',
+              color: isDarkMode ? '#9ca3af' : '#6b7280',
+              fontSize: isMobile ? 14 : 16,
+              textAlign: 'left',
+              cursor: 'pointer',
+              transition: 'color 0.2s',
+              padding: 0
+            }}
+            onMouseOver={e => e.currentTarget.style.color = isDarkMode ? '#fff' : '#111827'}
+            onMouseOut={e => e.currentTarget.style.color = isDarkMode ? '#9ca3af' : '#6b7280'}>
+              Demo
+            </button>
+            <button onClick={() => scrollToSection('pricing')} style={{
+              background: 'transparent',
+              border: 'none',
+              color: isDarkMode ? '#9ca3af' : '#6b7280',
+              fontSize: isMobile ? 14 : 16,
+              textAlign: 'left',
+              cursor: 'pointer',
+              transition: 'color 0.2s',
+              padding: 0
+            }}
+            onMouseOver={e => e.currentTarget.style.color = isDarkMode ? '#fff' : '#111827'}
+            onMouseOut={e => e.currentTarget.style.color = isDarkMode ? '#9ca3af' : '#6b7280'}>
+              Pricing
+            </button>
                 <button style={{
                   background: 'transparent',
                   border: 'none',
