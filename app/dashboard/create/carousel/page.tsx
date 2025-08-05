@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { useRouter } from "next/navigation"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -14,6 +14,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/components/ui/use-toast"
 import { generateText } from "ai"
 import { openai } from "@ai-sdk/openai"
+import { motion, AnimatePresence } from "framer-motion"
 
 const formSchema = z.object({
   title: z.string().min(2, {
@@ -25,7 +26,7 @@ const formSchema = z.object({
   template: z.string({
     required_error: "Please select a template.",
   }),
-  imageCount: z.string().transform((val) => Number.parseInt(val, 10)),
+  imageCount: z.string(),
 })
 
 interface User {
@@ -49,6 +50,13 @@ export default function CreateCarousel() {
   const [isGenerating, setIsGenerating] = useState(false)
   const [user, setUser] = useState<User | null>(null)
   const [isMounted, setIsMounted] = useState(false)
+  const [showAdvanced, setShowAdvanced] = useState(false)
+  const [preview, setPreview] = useState<null | { images: any[] }>(null)
+  const [platform, setPlatform] = useState<'Instagram' | 'LinkedIn' | 'X'>('Instagram')
+  const promptInputRef = useRef<HTMLTextAreaElement | null>(null)
+  const [genStart, setGenStart] = useState<number | null>(null)
+  const [genTime, setGenTime] = useState<number | null>(null)
+  const [genStep, setGenStep] = useState(0)
 
   useEffect(() => {
     setIsMounted(true)
@@ -60,7 +68,21 @@ export default function CreateCarousel() {
     }
 
     setUser(JSON.parse(storedUser))
+    // Focus prompt input on mount
+    setTimeout(() => { promptInputRef.current?.focus() }, 200)
   }, [router])
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout | null = null
+    if (isGenerating && genStart) {
+      interval = setInterval(() => {
+        setGenTime(Date.now() - genStart)
+      }, 100)
+    } else if (!isGenerating && genStart && genTime === null) {
+      setGenTime(Date.now() - genStart)
+    }
+    return () => { if (interval) clearInterval(interval) }
+  }, [isGenerating, genStart])
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -89,25 +111,38 @@ export default function CreateCarousel() {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     if (!checkUsageLimits()) return
-
     setIsGenerating(true)
-
+    setPreview(null)
+    setGenStart(Date.now())
+    setGenTime(null)
+    setGenStep(0)
     try {
+      // Animate steps during generation
+      const steps = [
+        "Analyzing your idea…",
+        "Crafting your LinkedIn carousel…",
+        "Adding voiceover…",
+        "Finalizing design…"
+      ]
+      let stepIdx = 0
+      const stepInterval = setInterval(() => {
+        setGenStep((prev) => {
+          if (prev < steps.length - 1) return prev + 1
+          return prev
+        })
+      }, 900)
       // Generate content with AI
-      const prompt = `Create a social media carousel titled "${values.title}" based on this description: "${values.description}". 
-      Generate content for ${values.imageCount} images. For each image, provide a title and a short caption or description.
-      Format the response as a JSON array of image objects, each with a "title" and "caption" property.`
-
+      const prompt = `Create a social media carousel titled "${values.title}" based on this description: "${values.description}". \nGenerate content for ${values.imageCount} images. For each image, provide a title and a short caption or description.\nFormat the response as a JSON array of image objects, each with a "title" and "caption" property.`
       const { text } = await generateText({
         model: openai("gpt-4o"),
         prompt: prompt,
       })
-
+      clearInterval(stepInterval)
+      setGenStep(steps.length - 1)
       let carouselContent
       try {
         carouselContent = JSON.parse(text)
       } catch (e) {
-        // If parsing fails, create a simple structure
         carouselContent = [{ title: values.title, caption: values.description }]
       }
 
@@ -146,7 +181,8 @@ export default function CreateCarousel() {
         description: "Your carousel has been generated successfully.",
       })
 
-      router.push(`/dashboard/edit/carousel/${newProject.id}`)
+      // Instead of redirect, show preview
+      setPreview({ images: carouselContent })
     } catch (error) {
       console.error("Error generating carousel:", error)
       toast({
@@ -172,111 +208,224 @@ export default function CreateCarousel() {
         </Button>
         <h1 className="text-2xl font-bold text-gray-900">Create Carousel</h1>
       </div>
-
       <div className="mx-auto max-w-2xl">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Title</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Product Launch Campaign" {...field} />
-                  </FormControl>
-                  <FormDescription>The title of your social media carousel.</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            {/* Main Prompt Input */}
             <FormField
               control={form.control}
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>What's your idea?</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="A carousel showcasing our new product features and benefits for the upcoming launch."
-                      className="min-h-32"
+                      ref={promptInputRef}
+                      placeholder="Describe your carousel idea or paste your content..."
+                      className="min-h-32 text-lg"
                       {...field}
                     />
                   </FormControl>
                   <FormDescription>
-                    Describe what you want in your carousel. The more detailed, the better the AI can generate relevant
-                    content.
+                    One click is all it takes. Just describe your idea and let AI do the rest.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <div className="grid gap-6 md:grid-cols-2">
-              <FormField
-                control={form.control}
-                name="template"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Template</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a template" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="minimal">Minimal</SelectItem>
-                        <SelectItem value="bold">Bold</SelectItem>
-                        <SelectItem value="colorful">Colorful</SelectItem>
-                        <SelectItem value="elegant">Elegant</SelectItem>
-                        <SelectItem value="modern">Modern</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormDescription>Choose a design template for your carousel.</FormDescription>
-                    <FormMessage />
-                  </FormItem>
+            {/* Advanced Options Toggle */}
+            <div>
+              <button
+                type="button"
+                className="text-sm text-blue-600 hover:underline focus:outline-none"
+                onClick={() => setShowAdvanced((v) => !v)}
+              >
+                {showAdvanced ? 'Hide Advanced Options' : 'Show Advanced Options'}
+              </button>
+              <AnimatePresence>
+                {showAdvanced && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="overflow-hidden mt-4"
+                  >
+                    <FormField
+                      control={form.control}
+                      name="title"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Title</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Product Launch Campaign" {...field} />
+                          </FormControl>
+                          <FormDescription>The title of your social media carousel.</FormDescription>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <div className="grid gap-6 md:grid-cols-2 mt-4">
+                      <FormField
+                        control={form.control}
+                        name="template"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Template</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Select a template" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                <SelectItem value="minimal">Minimal</SelectItem>
+                                <SelectItem value="bold">Bold</SelectItem>
+                                <SelectItem value="colorful">Colorful</SelectItem>
+                                <SelectItem value="elegant">Elegant</SelectItem>
+                                <SelectItem value="modern">Modern</SelectItem>
+                              </SelectContent>
+                            </Select>
+                            <FormDescription>Choose a design template for your carousel.</FormDescription>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="imageCount"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Number of Images</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Select image count" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                <SelectItem value="3">3 images</SelectItem>
+                                <SelectItem value="5">5 images</SelectItem>
+                                <SelectItem value="7">7 images</SelectItem>
+                                <SelectItem value="10">10 images</SelectItem>
+                              </SelectContent>
+                            </Select>
+                            <FormDescription>How many images do you want in your carousel?</FormDescription>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  </motion.div>
                 )}
-              />
-              <FormField
-                control={form.control}
-                name="imageCount"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Number of Images</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select image count" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="3">3 images</SelectItem>
-                        <SelectItem value="5">5 images</SelectItem>
-                        <SelectItem value="7">7 images</SelectItem>
-                        <SelectItem value="10">10 images</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormDescription>How many images do you want in your carousel?</FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              </AnimatePresence>
             </div>
-            <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700" disabled={isGenerating}>
+            {/* Generate Button & Animated Loader */}
+            <motion.button
+              type="submit"
+              className="w-full py-5 text-lg font-bold bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 shadow-lg rounded-md flex items-center justify-center"
+              disabled={isGenerating}
+              whileTap={{ scale: 0.97 }}
+              layout
+            >
               {isGenerating ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Generating Carousel...
-                </>
+                <motion.span
+                  className="flex flex-col items-center w-full"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                >
+                  <motion.div
+                    className="flex items-center gap-2 mb-2"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <motion.span
+                      className="inline-block h-6 w-6 border-2 border-t-2 border-t-white border-purple-400 rounded-full animate-spin"
+                      style={{ borderTopColor: '#fff', borderRightColor: '#a78bfa', borderBottomColor: '#a78bfa', borderLeftColor: '#a78bfa' }}
+                    />
+                    <span className="text-base font-semibold text-purple-200">
+                      {['Analyzing your idea…','Crafting your LinkedIn carousel…','Adding voiceover…','Finalizing design…'][genStep]}
+                    </span>
+                  </motion.div>
+                  <motion.div
+                    className="w-full h-2 bg-purple-100 rounded-full overflow-hidden mb-2"
+                    initial={{ width: 0 }}
+                    animate={{ width: '100%' }}
+                    transition={{ duration: 2 }}
+                  >
+                    <motion.div
+                      className="h-2 bg-gradient-to-r from-purple-400 to-pink-400"
+                      style={{ width: `${((genTime || 0) % 3000) / 30}%` }}
+                    />
+                  </motion.div>
+                  <span className="text-xs text-neutral-400">{genTime !== null ? `Elapsed: ${(genTime / 1000).toFixed(1)}s` : ''}</span>
+                </motion.span>
               ) : (
                 <>
-                  <Sparkles className="mr-2 h-4 w-4" />
+                  <Sparkles className="mr-2 h-5 w-5" />
                   Generate Carousel
                 </>
               )}
-            </Button>
+            </motion.button>
           </form>
         </Form>
+        {/* Real-time Preview with Platform Switcher */}
+        <AnimatePresence>
+          {preview && !isGenerating && (
+            <motion.div
+              key="preview"
+              initial={{ opacity: 0, y: 40, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 40, scale: 0.96 }}
+              transition={{ duration: 0.5, type: 'spring', bounce: 0.25 }}
+              className="mt-10 rounded-2xl bg-white/10 backdrop-blur-md border border-purple-400 shadow-lg p-6"
+            >
+              {/* Visual Timer Badge */}
+              {genTime !== null && (
+                <div className="mb-4 flex justify-center">
+                  <span className="inline-block rounded-full bg-gradient-to-r from-purple-500 to-pink-500 px-4 py-1 text-xs font-bold text-white shadow-lg animate-fade-in">
+                    Generated in {(genTime / 1000).toFixed(1)} seconds!
+                  </span>
+                </div>
+              )}
+              <div className="mb-4 flex justify-center gap-4">
+                {['Instagram', 'LinkedIn', 'X'].map((p) => (
+                  <button
+                    key={p}
+                    className={`px-6 py-2 rounded-full font-semibold text-sm transition-all duration-150 ${platform === p ? 'bg-purple-600 text-white shadow' : 'text-purple-400 hover:bg-purple-100/10'}`}
+                    style={{ minWidth: 110, minHeight: 36 }}
+                    onClick={() => setPlatform(p as typeof platform)}
+                  >
+                    {p}
+                  </button>
+                ))}
+              </div>
+              <motion.div
+                key={platform}
+                initial={{ opacity: 0, y: 20, scale: 0.98 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 20, scale: 0.98 }}
+                transition={{ duration: 0.3, type: 'spring', bounce: 0.2 }}
+                className="flex flex-col gap-4 items-center"
+              >
+                {preview.images.map((img, idx) => (
+                  <motion.div
+                    key={idx}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 * idx, duration: 0.4 }}
+                    className="w-full max-w-xl rounded-lg bg-white/20 p-4 shadow-md"
+                  >
+                    <div className="font-bold text-lg text-purple-300 mb-1">{img.title || `Slide ${idx + 1}`}</div>
+                    <div className="text-white text-base">{img.caption}</div>
+                    <div className="mt-2 text-xs text-neutral-300">{platform} preview</div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </div>
   )

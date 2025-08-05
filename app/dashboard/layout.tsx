@@ -98,7 +98,7 @@ export default function DashboardLayout({
       <div className="hidden border-r border-neutral-100 md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col">
         <div className="flex flex-1 flex-col overflow-y-auto pt-8">
           <div className="flex flex-shrink-0 items-center px-6">
-            <h1 className="text-xl font-medium tracking-tight text-black">ContentAI</h1>
+            <h1 className="text-2xl font-bold text-black tracking-tight">SCROLLIE</h1>
           </div>
           <div className="mt-10 flex flex-1 flex-col">
             <nav className="flex-1 space-y-2 px-6">
@@ -155,7 +155,7 @@ export default function DashboardLayout({
           <SheetContent side="left" className="w-64 border-r border-neutral-100 p-0">
             <div className="flex h-full flex-col">
               <div className="flex items-center border-b border-neutral-100 px-6 py-6">
-                <h1 className="text-xl font-medium tracking-tight text-black">ContentAI</h1>
+                <h1 className="text-2xl font-bold text-black tracking-tight">SCROLLIE</h1>
               </div>
               <nav className="flex-1 space-y-2 px-6 py-6">
                 {navigation.map((item) => (

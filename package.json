@@ -8,6 +8,17 @@
     "lint": "next lint",
     "start": "next start"
   },
+  "description": "SCROLLIE: AI carousel creator and content intelligence platform for social media growth.",
+  "keywords": [
+    "SCROLLIE",
+    "AI carousel creator",
+    "social media content",
+    "content intelligence",
+    "Instagram carousels",
+    "LinkedIn content",
+    "growth analytics",
+    "multi-platform content"
+  ],
   "dependencies": {
     "@ai-sdk/openai": "latest",
     "@hookform/resolvers": "latest",
@@ -45,6 +56,7 @@
     "cmdk": "1.0.4",
     "date-fns": "4.1.0",
     "embla-carousel-react": "8.5.1",
+    "framer-motion": "^12.23.6",
     "input-otp": "1.4.1",
     "lucide-react": "^0.454.0",
     "next": "15.2.4",
@@ -56,6 +68,7 @@
     "react-resizable-panels": "^2.1.7",
     "recharts": "2.15.0",
     "sonner": "^1.7.1",
+    "swiper": "^11.2.10",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
     "vaul": "^0.9.6",

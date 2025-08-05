@@ -21,6 +21,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { useToast } from "@/components/ui/use-toast"
+import { useRef } from "react"
+import { motion, AnimatePresence } from "framer-motion"
 
 interface CarouselImage {
   title: string
@@ -57,6 +59,10 @@ export default function EditCarousel() {
   const [isExporting, setIsExporting] = useState(false)
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const [isMounted, setIsMounted] = useState(false)
+  const [showReferral, setShowReferral] = useState(false)
+  const [hasShared, setHasShared] = useState(false)
+  const [shareThanks, setShareThanks] = useState(false)
+  const shareCaption = `Check out my new carousel! #MadeWithScrollie https://scrollie.ai`
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -201,6 +207,29 @@ export default function EditCarousel() {
     newImages[newIndex] = temp
 
     setImages(newImages)
+  }
+
+  const handleShare = (platform: 'Instagram' | 'LinkedIn' | 'X') => {
+    setHasShared(true)
+    setTimeout(() => setShareThanks(true), 1200)
+    let url = ''
+    if (navigator.share) {
+      navigator.share({
+        title: 'My Carousel on Scrollie',
+        text: shareCaption,
+        url: 'https://scrollie.ai',
+      })
+      return
+    }
+    if (platform === 'Instagram') {
+      url = `https://www.instagram.com/?text=${encodeURIComponent(shareCaption)}`
+    } else if (platform === 'LinkedIn') {
+      url = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent('https://scrollie.ai')}&summary=${encodeURIComponent(shareCaption)}`
+    } else if (platform === 'X') {
+      url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareCaption)}`
+    }
+    window.open(url, '_blank')
+    setShowReferral(true)
   }
 
   if (!isMounted || !project) {
@@ -384,6 +413,49 @@ export default function EditCarousel() {
               </CardContent>
             </Card>
           )}
+
+          {/* Share Buttons after export */}
+          <div className="mt-8 flex flex-col items-center gap-4">
+            <div className="flex gap-4">
+              <Button className="bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold shadow-lg hover:from-pink-600 hover:to-purple-700" onClick={() => handleShare('Instagram')}>
+                <img src="/instagram.svg" alt="Instagram" className="h-5 w-5 mr-2" /> Share to Instagram
+              </Button>
+              <Button className="bg-gradient-to-r from-blue-500 to-blue-700 text-white font-bold shadow-lg hover:from-blue-600 hover:to-blue-800" onClick={() => handleShare('LinkedIn')}>
+                <img src="/linkedin.svg" alt="LinkedIn" className="h-5 w-5 mr-2" /> Share to LinkedIn
+              </Button>
+              <Button className="bg-gradient-to-r from-gray-800 to-gray-900 text-white font-bold shadow-lg hover:from-gray-700 hover:to-gray-900" onClick={() => handleShare('X')}>
+                <img src="/x.svg" alt="X" className="h-5 w-5 mr-2" /> Share to X
+              </Button>
+            </div>
+            <AnimatePresence>
+              {showReferral && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 20 }}
+                  className="mt-4 rounded-xl bg-white/90 p-4 shadow-lg border border-purple-200 flex flex-col items-center"
+                >
+                  <div className="font-bold text-purple-700 mb-1">Join the Scrollie Creator Partnership!</div>
+                  <div className="text-sm text-neutral-700 mb-2">Get <span className="font-bold">10 extra carousel credits</span> for every friend who signs up using your referral link.</div>
+                  <Button className="bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold px-6 py-2 rounded-full" onClick={() => setShowReferral(false)}>
+                    Get My Referral Link
+                  </Button>
+                </motion.div>
+              )}
+            </AnimatePresence>
+            <AnimatePresence>
+              {shareThanks && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  className="mt-2 text-green-600 font-semibold text-sm"
+                >
+                  🎉 Thanks for sharing with #MadeWithScrollie! We'll highlight top creators in-app soon.
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
       </div>
     </div>

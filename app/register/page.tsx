@@ -57,8 +57,8 @@ const Register = () => {
       // Check if email already exists
       if (storedUsers.some((u: any) => u.email === values.email)) {
         toast({
-          title: "Registration Failed",
-          description: "An account with this email already exists.",
+          title: "Email already registered",
+          description: "Try logging in or use a different email.",
           variant: "destructive",
         })
         setIsLoading(false)
@@ -84,15 +84,15 @@ const Register = () => {
       localStorage.setItem("registeredUsers", JSON.stringify([...storedUsers, newUser]))
 
       toast({
-        title: "Registration Successful",
-        description: "You can now log in with your new account.",
+        title: "Welcome to Scrollie!",
+        description: "Your content journey starts now.",
       })
       router.push("/login")
     } catch (error) {
       console.error("Unexpected error during registration:", error)
       toast({
-        title: "Error",
-        description: "An unexpected error occurred. Please try again.",
+        title: "Something went wrong",
+        description: "Please try again or contact support if the issue persists.",
         variant: "destructive",
       })
     } finally {
@@ -107,7 +107,21 @@ const Register = () => {
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100 px-4">
       <div className="w-full max-w-md rounded-lg bg-white p-8 shadow-lg">
-        <h2 className="mb-6 text-center text-3xl font-bold text-gray-900">Register</h2>
+        <h2 className="mb-6 text-center text-3xl font-bold text-gray-900">Create your Scrollie account</h2>
+        {/* Social sign-up placeholder */}
+        <div className="mb-6 flex flex-col gap-3">
+          <button className="w-full flex items-center justify-center gap-2 rounded-full border border-neutral-200 bg-white py-3 text-sm font-semibold text-neutral-700 shadow hover:bg-neutral-50 transition">
+            <img src="/google.svg" alt="Google" className="h-5 w-5" /> Sign up with Google
+          </button>
+          <button className="w-full flex items-center justify-center gap-2 rounded-full border border-neutral-200 bg-white py-3 text-sm font-semibold text-neutral-700 shadow hover:bg-neutral-50 transition">
+            <img src="/twitter.svg" alt="Twitter" className="h-5 w-5" /> Sign up with Twitter
+          </button>
+        </div>
+        <div className="relative flex items-center mb-6">
+          <div className="flex-grow border-t border-neutral-200" />
+          <span className="mx-4 text-xs text-neutral-400">or</span>
+          <div className="flex-grow border-t border-neutral-200" />
+        </div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
@@ -153,18 +167,19 @@ const Register = () => {
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Registering...
+                  Creating account...
                 </>
               ) : (
-                "Register"
+                "Create Account"
               )}
             </Button>
           </form>
         </Form>
-        <p className="mt-6 text-center text-sm text-gray-600">
+        <p className="mt-6 text-center text-xs text-neutral-400">We respect your privacy. No spam, ever.</p>
+        <p className="mt-4 text-center text-sm text-gray-600">
           Already have an account?{" "}
           <Link href="/login" className="font-medium text-blue-600 hover:text-blue-500">
-            Login
+            Log in
           </Link>
         </p>
       </div>

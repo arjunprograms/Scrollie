@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { Presentation, ImageIcon, Plus, ArrowUpRight, Clock } from "lucide-react"
+import { Presentation, ImageIcon, Plus, ArrowUpRight, Clock, Sparkles, Eye, Download } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
@@ -38,6 +38,8 @@ export default function Dashboard() {
   const [user, setUser] = useState<User | null>(null)
   const [recentProjects, setRecentProjects] = useState<Project[]>([])
   const [isMounted, setIsMounted] = useState(false)
+  const [showTour, setShowTour] = useState(false)
+  const [tourStep, setTourStep] = useState(0)
 
   useEffect(() => {
     setIsMounted(true)
@@ -60,7 +62,21 @@ export default function Dashboard() {
       )
       setRecentProjects(sortedProjects.slice(0, 3)) // Show only top 3 recent projects
     }
+
+    // Onboarding tour: show only on first visit
+    if (!localStorage.getItem("scrollie_tour_seen")) {
+      setShowTour(true)
+      setTourStep(0)
+    }
   }, [router])
+
+  const handleNextTour = () => {
+    if (tourStep < 2) setTourStep(tourStep + 1)
+    else {
+      setShowTour(false)
+      localStorage.setItem("scrollie_tour_seen", "1")
+    }
+  }
 
   if (!isMounted || !user) {
     return null
@@ -75,14 +91,45 @@ export default function Dashboard() {
   }
 
   return (
-    <div>
+    <div className="relative">
+      {/* Onboarding Tour Overlay */}
+      {showTour && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
+          <div className="bg-white rounded-2xl shadow-xl p-8 max-w-xs flex flex-col items-center text-center gap-4 animate-fade-in">
+            {tourStep === 0 && (
+              <>
+                <Sparkles className="h-8 w-8 text-purple-500 mb-2" />
+                <div className="font-bold text-lg">Paste your idea here</div>
+                <div className="text-sm text-neutral-600">Start by clicking <span className="font-semibold">New Carousel</span> or <span className="font-semibold">New Slideshow</span>.</div>
+              </>
+            )}
+            {tourStep === 1 && (
+              <>
+                <Eye className="h-8 w-8 text-blue-500 mb-2" />
+                <div className="font-bold text-lg">Generate with one click</div>
+                <div className="text-sm text-neutral-600">Hit <span className="font-semibold">Generate</span> to let Scrollie work its magic.</div>
+              </>
+            )}
+            {tourStep === 2 && (
+              <>
+                <Download className="h-8 w-8 text-green-500 mb-2" />
+                <div className="font-bold text-lg">Preview & Export</div>
+                <div className="text-sm text-neutral-600">See your content and export it instantly.</div>
+              </>
+            )}
+            <Button className="mt-4 w-full" onClick={handleNextTour}>
+              {tourStep < 2 ? "Next" : "Got it!"}
+            </Button>
+          </div>
+        </div>
+      )}
       <div className="mb-10 flex items-center justify-between">
-        <h1 className="text-2xl font-medium tracking-tight text-black">Dashboard</h1>
+        <h1 className="text-2xl font-medium tracking-tight text-black">Content Creator Hub</h1>
         <div className="flex space-x-3">
           <Link href="/dashboard/create/slideshow">
             <Button className="rounded-full bg-black px-4 text-sm font-medium text-white hover:bg-neutral-800">
               <Plus className="mr-2 h-4 w-4" />
-              New Slideshow
+              Create Slideshow
             </Button>
           </Link>
           <Link href="/dashboard/create/carousel">
@@ -91,7 +138,7 @@ export default function Dashboard() {
               className="rounded-full border-neutral-200 px-4 text-sm font-medium text-black hover:bg-neutral-50 bg-transparent"
             >
               <Plus className="mr-2 h-4 w-4" />
-              New Carousel
+              Create Carousel
             </Button>
           </Link>
         </div>
@@ -219,13 +266,13 @@ export default function Dashboard() {
             </div>
             <h3 className="mb-2 text-lg font-medium text-black">No projects yet</h3>
             <p className="mb-6 max-w-md text-sm text-neutral-600">
-              Create your first slideshow or carousel to get started with ContentAI.
+              Welcome to Scrollie! Create your first carousel or slideshow and watch your content go viral 🚀
             </p>
             <div className="flex space-x-3">
               <Link href="/dashboard/create/slideshow">
                 <Button className="rounded-full bg-black px-4 text-sm font-medium text-white hover:bg-neutral-800">
                   <Plus className="mr-2 h-4 w-4" />
-                  New Slideshow
+                  Create Slideshow
                 </Button>
               </Link>
               <Link href="/dashboard/create/carousel">
@@ -234,7 +281,7 @@ export default function Dashboard() {
                   className="rounded-full border-neutral-200 px-4 text-sm font-medium text-black hover:bg-neutral-50 bg-transparent"
                 >
                   <Plus className="mr-2 h-4 w-4" />
-                  New Carousel
+                  Create Carousel
                 </Button>
               </Link>
             </div>
