@@ -70,8 +70,6 @@ export default function Home() {
         top: elementPosition,
         behavior: 'smooth'
       });
-    } else {
-      console.log(`Section with id "${sectionId}" not found`);
     }
   };
 
@@ -85,7 +83,489 @@ export default function Home() {
       overflow: 'hidden'
     }}>
       {/* Navigation Header */}
-      
+      <div style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 1000,
+        background: isDarkMode ? 'rgba(0, 0, 0, 0.8)' : 'rgba(255, 255, 255, 0.8)',
+        backdropFilter: 'blur(10px)',
+        borderBottom: 'none',
+        padding: isMobile ? '12px 16px' : '16px 24px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+      }}
+      className={isMobile ? mobileClasses.mobileNav : ''}>
+        {/* Logo - Positioned absolutely on the left */}
+        <div style={{
+          position: 'absolute',
+          left: isMobile ? 16 : 24,
+          top: '50%',
+          transform: 'translateY(-50%)'
+        }}>
+          <img
+            src={isDarkMode ? "/images/logo-scrollie-dark.png" : "/images/logo-scrollie-light.png"}
+            alt="SCROLLIE"
+            style={{ height: 36, width: 'auto' }}
+          />
+        </div>
+        
+        {/* Navigation Menu - Centered */}
+        <div style={{ 
+          display: isMobile ? 'none' : 'flex', 
+          alignItems: 'center', 
+          gap: isMobile ? 16 : 48,
+          justifyContent: 'center'
+        }}>
+          <button onClick={() => scrollToSection('why-choose')} style={{
+            color: isDarkMode ? '#d1d5db' : '#374151',
+            textDecoration: 'none',
+            fontSize: isMobile ? 14 : 16,
+            fontWeight: 500,
+            fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+            letterSpacing: '-0.01em',
+            transition: 'color 0.2s',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 4,
+            background: 'transparent',
+            border: 'none',
+            cursor: 'pointer',
+          }}
+          className={isMobile ? mobileClasses.button : ''}
+          onMouseOver={e => e.currentTarget.style.color = isDarkMode ? '#fff' : '#111827'}
+          onMouseOut={e => e.currentTarget.style.color = isDarkMode ? '#d1d5db' : '#374151'}>
+            Why Choose
+          </button>
+          <button onClick={() => scrollToSection('tutorials')} style={{
+            color: isDarkMode ? '#d1d5db' : '#374151',
+            textDecoration: 'none',
+            fontSize: isMobile ? 14 : 16,
+            fontWeight: 500,
+            fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+            letterSpacing: '-0.01em',
+            transition: 'color 0.2s',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 4,
+            background: 'transparent',
+            border: 'none',
+            cursor: 'pointer',
+          }}
+          className={isMobile ? mobileClasses.button : ''}
+          onMouseOver={e => e.currentTarget.style.color = isDarkMode ? '#fff' : '#111827'}
+          onMouseOut={e => e.currentTarget.style.color = isDarkMode ? '#d1d5db' : '#374151'}>
+            Tutorials
+          </button>
+          <button onClick={() => scrollToSection('how-it-works')} style={{
+            color: isDarkMode ? '#d1d5db' : '#374151',
+            textDecoration: 'none',
+            fontSize: isMobile ? 14 : 16,
+            fontWeight: 500,
+            fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+            letterSpacing: '-0.01em',
+            transition: 'color 0.2s',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 4,
+            background: 'transparent',
+            border: 'none',
+            cursor: 'pointer',
+          }}
+          className={isMobile ? mobileClasses.button : ''}
+          onMouseOver={e => e.currentTarget.style.color = isDarkMode ? '#fff' : '#111827'}
+          onMouseOut={e => e.currentTarget.style.color = isDarkMode ? '#d1d5db' : '#374151'}>
+            How It Works
+          </button>
+          <button onClick={() => scrollToSection('faq')} style={{
+            color: isDarkMode ? '#d1d5db' : '#374151',
+            textDecoration: 'none',
+            fontSize: isMobile ? 14 : 16,
+            fontWeight: 500,
+            fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+            letterSpacing: '-0.01em',
+            transition: 'color 0.2s',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 4,
+            background: 'transparent',
+            border: 'none',
+            cursor: 'pointer',
+          }}
+          className={isMobile ? mobileClasses.button : ''}
+          onMouseOver={e => e.currentTarget.style.color = isDarkMode ? '#fff' : '#111827'}
+          onMouseOut={e => e.currentTarget.style.color = isDarkMode ? '#d1d5db' : '#374151'}>
+            FAQ
+          </button>
+          <button onClick={() => scrollToSection('demo')} style={{
+            color: isDarkMode ? '#d1d5db' : '#374151',
+            textDecoration: 'none',
+            fontSize: isMobile ? 14 : 16,
+            fontWeight: 500,
+            fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+            letterSpacing: '-0.01em',
+            transition: 'color 0.2s',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 4,
+            background: 'transparent',
+            border: 'none',
+            cursor: 'pointer',
+          }}
+          className={isMobile ? mobileClasses.button : ''}
+          onMouseOver={e => e.currentTarget.style.color = isDarkMode ? '#fff' : '#111827'}
+          onMouseOut={e => e.currentTarget.style.color = isDarkMode ? '#d1d5db' : '#374151'}>
+            Demo
+          </button>
+          <button onClick={() => scrollToSection('pricing')} style={{
+            color: isDarkMode ? '#d1d5db' : '#374151',
+            textDecoration: 'none',
+            fontSize: isMobile ? 14 : 16,
+            fontWeight: 500,
+            fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+            letterSpacing: '-0.01em',
+            transition: 'color 0.2s',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 4,
+            background: 'transparent',
+            border: 'none',
+            cursor: 'pointer',
+          }}
+          className={isMobile ? mobileClasses.button : ''}
+          onMouseOver={e => e.currentTarget.style.color = isDarkMode ? '#fff' : '#111827'}
+          onMouseOut={e => e.currentTarget.style.color = isDarkMode ? '#d1d5db' : '#374151'}>
+            Pricing
+          </button>
+          <button onClick={() => scrollToSection('testimonials')} style={{
+            color: isDarkMode ? '#d1d5db' : '#374151',
+            textDecoration: 'none',
+            fontSize: isMobile ? 14 : 16,
+            fontWeight: 500,
+            fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+            letterSpacing: '-0.01em',
+            transition: 'color 0.2s',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 4,
+            background: 'transparent',
+            border: 'none',
+            cursor: 'pointer',
+          }}
+          className={isMobile ? mobileClasses.button : ''}
+          onMouseOver={e => e.currentTarget.style.color = isDarkMode ? '#fff' : '#111827'}
+          onMouseOut={e => e.currentTarget.style.color = isDarkMode ? '#d1d5db' : '#374151'}>
+            Testimonials
+          </button>
+          <button onClick={() => scrollToSection('login')} style={{
+            color: isDarkMode ? '#d1d5db' : '#374151',
+            textDecoration: 'none',
+            fontSize: isMobile ? 14 : 16,
+            fontWeight: 500,
+            fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+            letterSpacing: '-0.01em',
+            transition: 'color 0.2s',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 4,
+            background: 'transparent',
+            border: 'none',
+            cursor: 'pointer',
+          }}
+          className={isMobile ? mobileClasses.button : ''}
+          onMouseOver={e => e.currentTarget.style.color = isDarkMode ? '#fff' : '#111827'}
+          onMouseOut={e => e.currentTarget.style.color = isDarkMode ? '#d1d5db' : '#374151'}>
+            Get Started
+          </button>
+        </div>
+
+        {/* Right side buttons - Positioned absolutely on the right */}
+        <div style={{ 
+          position: 'absolute',
+          right: isMobile ? 16 : 24,
+          top: '50%',
+          transform: 'translateY(-50%)',
+          display: 'flex', 
+          alignItems: 'center', 
+          gap: isMobile ? 8 : 16 
+        }}>
+          {/* Theme toggle */}
+          <button onClick={toggleTheme} style={{
+            background: 'transparent',
+            border: `1px solid ${isDarkMode ? 'rgba(156, 163, 175, 0.3)' : 'rgba(55, 65, 81, 0.3)'}`,
+            borderRadius: isMobile ? 12 : 8,
+            padding: isMobile ? '10px 14px' : '8px 12px',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 6,
+            color: isDarkMode ? '#9ca3af' : '#6b7280',
+            fontSize: isMobile ? 16 : 14,
+            fontWeight: 500,
+            fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+            transition: 'all 0.2s',
+          }}
+          className={isMobile ? mobileClasses.button : ''}
+          onMouseOver={e => {
+            e.currentTarget.style.borderColor = isDarkMode ? 'rgba(156, 163, 175, 0.5)' : 'rgba(55, 65, 81, 0.5)';
+            e.currentTarget.style.color = isDarkMode ? '#d1d5db' : '#374151';
+          }}
+          onMouseOut={e => {
+            e.currentTarget.style.borderColor = isDarkMode ? 'rgba(156, 163, 175, 0.3)' : 'rgba(55, 65, 81, 0.3)';
+            e.currentTarget.style.color = isDarkMode ? '#9ca3af' : '#6b7280';
+          }}>
+            <span style={{ fontSize: 14 }}>{isDarkMode ? '☀️' : '🌙'}</span>
+            {isDarkMode ? 'Light' : 'Dark'}
+          </button>
+          
+          {/* CTA button */}
+          <button style={{
+            background: 'linear-gradient(135deg, #a78bfa 0%, #ec4899 50%, #f59e0b 100%)',
+            color: '#fff',
+            fontWeight: isMobile ? 700 : 600,
+            fontSize: isMobile ? 14 : 16,
+            border: 'none',
+            borderRadius: isMobile ? 12 : 8,
+            padding: isMobile ? '12px 16px' : '10px 20px',
+            cursor: 'pointer',
+            boxShadow: '0 4px 16px 0 rgba(168,139,250,0.25)',
+            transition: 'all 0.2s',
+            fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+            letterSpacing: '-0.01em',
+          }}
+          className={isMobile ? mobileClasses.cta : ''}
+          onMouseOver={e => {
+            if (!isMobile) {
+            e.currentTarget.style.boxShadow = '0 6px 24px 0 rgba(168,139,250,0.35)';
+            e.currentTarget.style.transform = 'translateY(-1px)';
+            }
+          }}
+          onMouseOut={e => {
+            if (!isMobile) {
+            e.currentTarget.style.boxShadow = '0 4px 16px 0 rgba(168,139,250,0.25)';
+            e.currentTarget.style.transform = 'translateY(0)';
+            }
+          }}>
+            Get started now
+          </button>
+        </div>
+
+        {/* Mobile Menu Button */}
+        <button
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          style={{
+            display: isMobile ? 'flex' : 'none',
+            flexDirection: 'column',
+            gap: 4,
+            background: 'transparent',
+            border: 'none',
+            cursor: 'pointer',
+            padding: '8px',
+            borderRadius: '8px',
+            position: 'absolute',
+            right: 16,
+            top: '50%',
+            transform: 'translateY(-50%)'
+          }}
+        >
+          <div style={{
+            width: 24,
+            height: 2,
+            background: isDarkMode ? '#fff' : '#000',
+            transition: 'all 0.3s'
+          }} />
+          <div style={{
+            width: 24,
+            height: 2,
+            background: isDarkMode ? '#fff' : '#000',
+            transition: 'all 0.3s'
+          }} />
+          <div style={{
+            width: 24,
+            height: 2,
+            background: isDarkMode ? '#fff' : '#000',
+            transition: 'all 0.3s'
+          }} />
+        </button>
+      </div>
+
+      {/* Mobile Menu Overlay */}
+      {isMobile && mobileMenuOpen && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: isDarkMode ? 'rgba(0, 0, 0, 0.95)' : 'rgba(255, 255, 255, 0.95)',
+          backdropFilter: 'blur(10px)',
+          zIndex: 999,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '80px 20px 40px 20px'
+        }}>
+          <button
+            onClick={() => setMobileMenuOpen(false)}
+            style={{
+              position: 'absolute',
+              top: 20,
+              right: 20,
+              background: 'transparent',
+              border: 'none',
+              color: isDarkMode ? '#fff' : '#000',
+              fontSize: 32,
+              cursor: 'pointer',
+              padding: '8px',
+              borderRadius: '8px'
+            }}
+          >
+            ✕
+          </button>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 24, alignItems: 'center', width: '100%', maxWidth: 300 }}>
+            <button onClick={() => { scrollToSection('why-choose'); setMobileMenuOpen(false); }} style={{
+              background: 'transparent',
+              border: 'none',
+              color: isDarkMode ? '#fff' : '#111827',
+              fontSize: 20,
+              fontWeight: 600,
+              cursor: 'pointer',
+              padding: '12px 16px',
+              borderRadius: '12px',
+              transition: 'all 0.2s',
+              width: '100%',
+              textAlign: 'center'
+            }}
+            onMouseOver={e => e.currentTarget.style.background = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)'}
+            onMouseOut={e => e.currentTarget.style.background = 'transparent'}>
+              Why Choose
+            </button>
+            <button onClick={() => { scrollToSection('tutorials'); setMobileMenuOpen(false); }} style={{
+              background: 'transparent',
+              border: 'none',
+              color: isDarkMode ? '#fff' : '#111827',
+              fontSize: 20,
+              fontWeight: 600,
+              cursor: 'pointer',
+              padding: '12px 16px',
+              borderRadius: '12px',
+              transition: 'all 0.2s',
+              width: '100%',
+              textAlign: 'center'
+            }}
+            onMouseOver={e => e.currentTarget.style.background = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)'}
+            onMouseOut={e => e.currentTarget.style.background = 'transparent'}>
+              Tutorials
+            </button>
+            <button onClick={() => { scrollToSection('how-it-works'); setMobileMenuOpen(false); }} style={{
+              background: 'transparent',
+              border: 'none',
+              color: isDarkMode ? '#fff' : '#111827',
+              fontSize: 20,
+              fontWeight: 600,
+              cursor: 'pointer',
+              padding: '12px 16px',
+              borderRadius: '12px',
+              transition: 'all 0.2s',
+              width: '100%',
+              textAlign: 'center'
+            }}
+            onMouseOver={e => e.currentTarget.style.background = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)'}
+            onMouseOut={e => e.currentTarget.style.background = 'transparent'}>
+              How It Works
+            </button>
+            <button onClick={() => { scrollToSection('faq'); setMobileMenuOpen(false); }} style={{
+              background: 'transparent',
+              border: 'none',
+              color: isDarkMode ? '#fff' : '#111827',
+              fontSize: 20,
+              fontWeight: 600,
+              cursor: 'pointer',
+              padding: '12px 16px',
+              borderRadius: '12px',
+              transition: 'all 0.2s',
+              width: '100%',
+              textAlign: 'center'
+            }}
+            onMouseOver={e => e.currentTarget.style.background = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)'}
+            onMouseOut={e => e.currentTarget.style.background = 'transparent'}>
+              FAQ
+            </button>
+            <button onClick={() => { scrollToSection('demo'); setMobileMenuOpen(false); }} style={{
+              background: 'transparent',
+              border: 'none',
+              color: isDarkMode ? '#fff' : '#111827',
+              fontSize: 20,
+              fontWeight: 600,
+              cursor: 'pointer',
+              padding: '12px 16px',
+              borderRadius: '12px',
+              transition: 'all 0.2s',
+              width: '100%',
+              textAlign: 'center'
+            }}
+            onMouseOver={e => e.currentTarget.style.background = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)'}
+            onMouseOut={e => e.currentTarget.style.background = 'transparent'}>
+              Demo
+            </button>
+            <button onClick={() => { scrollToSection('pricing'); setMobileMenuOpen(false); }} style={{
+              background: 'transparent',
+              border: 'none',
+              color: isDarkMode ? '#fff' : '#111827',
+              fontSize: 20,
+              fontWeight: 600,
+              cursor: 'pointer',
+              padding: '12px 16px',
+              borderRadius: '12px',
+              transition: 'all 0.2s',
+              width: '100%',
+              textAlign: 'center'
+            }}
+            onMouseOver={e => e.currentTarget.style.background = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)'}
+            onMouseOut={e => e.currentTarget.style.background = 'transparent'}>
+              Pricing
+            </button>
+            <button onClick={() => { scrollToSection('testimonials'); setMobileMenuOpen(false); }} style={{
+              background: 'transparent',
+              border: 'none',
+              color: isDarkMode ? '#fff' : '#111827',
+              fontSize: 20,
+              fontWeight: 600,
+              cursor: 'pointer',
+              padding: '12px 16px',
+              borderRadius: '12px',
+              transition: 'all 0.2s',
+              width: '100%',
+              textAlign: 'center'
+            }}
+            onMouseOver={e => e.currentTarget.style.background = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)'}
+            onMouseOut={e => e.currentTarget.style.background = 'transparent'}>
+              Testimonials
+            </button>
+            <button onClick={() => { scrollToSection('login'); setMobileMenuOpen(false); }} style={{
+              background: 'transparent',
+              border: 'none',
+              color: isDarkMode ? '#fff' : '#111827',
+              fontSize: 20,
+              fontWeight: 600,
+              cursor: 'pointer',
+              padding: '12px 16px',
+              borderRadius: '12px',
+              transition: 'all 0.2s',
+              width: '100%',
+              textAlign: 'center'
+            }}
+            onMouseOver={e => e.currentTarget.style.background = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)'}
+            onMouseOut={e => e.currentTarget.style.background = 'transparent'}>
+              Get Started
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Hero Section - Screenshot Style */}
       <div style={{
@@ -111,390 +591,6 @@ export default function Home() {
         }}>
           <StarsBackground isDarkMode={isDarkMode} />
         </div>
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 1000,
-          background: isDarkMode ? 'rgba(0, 0, 0, 0.8)' : 'rgba(255, 255, 255, 0.8)',
-          backdropFilter: 'blur(10px)',
-          borderBottom: 'none',
-          padding: isMobile ? '12px 16px' : '16px 24px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-        }}
-        className={isMobile ? mobileClasses.mobileNav : ''}>
-          {/* Logo */}
-          <img
-            src={isDarkMode ? "/images/logo-scrollie-dark.png" : "/images/logo-scrollie-light.png"}
-            alt="SCROLLIE"
-            style={{ height: 36, width: 'auto' }}
-          />
-          
-          {/* Navigation Menu - Desktop */}
-          <div style={{ 
-            display: isMobile ? 'none' : 'flex', 
-            alignItems: 'center', 
-            gap: isMobile ? 16 : 48 
-          }}>
-            <button onClick={() => scrollToSection('why-choose')} style={{
-              color: isDarkMode ? '#d1d5db' : '#374151',
-              textDecoration: 'none',
-              fontSize: isMobile ? 14 : 16,
-              fontWeight: 500,
-              fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-              letterSpacing: '-0.01em',
-              transition: 'color 0.2s',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 4,
-              background: 'transparent',
-              border: 'none',
-              cursor: 'pointer',
-            }}
-            className={isMobile ? mobileClasses.button : ''}
-            onMouseOver={e => e.currentTarget.style.color = isDarkMode ? '#fff' : '#111827'}
-            onMouseOut={e => e.currentTarget.style.color = isDarkMode ? '#d1d5db' : '#374151'}>
-              Why Choose
-            </button>
-            <button onClick={() => scrollToSection('features')} style={{
-              color: isDarkMode ? '#d1d5db' : '#374151',
-              textDecoration: 'none',
-              fontSize: isMobile ? 14 : 16,
-              fontWeight: 500,
-              fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-              letterSpacing: '-0.01em',
-              transition: 'color 0.2s',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 4,
-              background: 'transparent',
-              border: 'none',
-              cursor: 'pointer',
-            }}
-            className={isMobile ? mobileClasses.button : ''}
-            onMouseOver={e => e.currentTarget.style.color = isDarkMode ? '#fff' : '#111827'}
-            onMouseOut={e => e.currentTarget.style.color = isDarkMode ? '#d1d5db' : '#374151'}>
-              Features
-            </button>
-            <button onClick={() => scrollToSection('how-it-works')} style={{
-              color: isDarkMode ? '#d1d5db' : '#374151',
-              textDecoration: 'none',
-              fontSize: isMobile ? 14 : 16,
-              fontWeight: 500,
-              fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-              letterSpacing: '-0.01em',
-              transition: 'color 0.2s',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 4,
-              background: 'transparent',
-              border: 'none',
-              cursor: 'pointer',
-            }}
-            className={isMobile ? mobileClasses.button : ''}
-            onMouseOver={e => e.currentTarget.style.color = isDarkMode ? '#fff' : '#111827'}
-            onMouseOut={e => e.currentTarget.style.color = isDarkMode ? '#d1d5db' : '#374151'}>
-              How It Works
-            </button>
-            <button onClick={() => scrollToSection('demo')} style={{
-              color: isDarkMode ? '#d1d5db' : '#374151',
-              textDecoration: 'none',
-              fontSize: isMobile ? 14 : 16,
-              fontWeight: 500,
-              fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-              letterSpacing: '-0.01em',
-              transition: 'color 0.2s',
-              background: 'transparent',
-              border: 'none',
-              cursor: 'pointer',
-            }}
-            className={isMobile ? mobileClasses.button : ''}
-            onMouseOver={e => e.currentTarget.style.color = isDarkMode ? '#fff' : '#111827'}
-            onMouseOut={e => e.currentTarget.style.color = isDarkMode ? '#d1d5db' : '#374151'}>
-              Demo
-            </button>
-            <button onClick={() => scrollToSection('pricing')} style={{
-              color: isDarkMode ? '#d1d5db' : '#374151',
-              textDecoration: 'none',
-              fontSize: isMobile ? 14 : 16,
-              fontWeight: 500,
-              fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-              letterSpacing: '-0.01em',
-              transition: 'color 0.2s',
-              background: 'transparent',
-              border: 'none',
-              cursor: 'pointer',
-            }}
-            className={isMobile ? mobileClasses.button : ''}
-            onMouseOver={e => e.currentTarget.style.color = isDarkMode ? '#fff' : '#111827'}
-            onMouseOut={e => e.currentTarget.style.color = isDarkMode ? '#d1d5db' : '#374151'}>
-              Pricing
-            </button>
-          </div>
-          
-          {/* Mobile Menu Button */}
-          {isMobile && (
-            <button
-              onClick={() => {
-                setMobileMenuOpen(!mobileMenuOpen);
-              }}
-              style={{
-                background: 'transparent',
-                border: 'none',
-                color: isDarkMode ? '#fff' : '#000',
-                fontSize: 24,
-                cursor: 'pointer',
-                padding: '8px',
-                borderRadius: '8px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
-              className={mobileClasses.button}
-            >
-              ☰
-            </button>
-          )}
-          
-          {/* Right side buttons */}
-          <div style={{ 
-            display: 'flex', 
-            alignItems: 'center', 
-            gap: isMobile ? 8 : 16 
-          }}>
-            {/* Theme toggle */}
-            <button onClick={toggleTheme} style={{
-              background: 'transparent',
-              border: `1px solid ${isDarkMode ? 'rgba(156, 163, 175, 0.3)' : 'rgba(55, 65, 81, 0.3)'}`,
-              borderRadius: isMobile ? 12 : 8,
-              padding: isMobile ? '10px 14px' : '8px 12px',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 6,
-              color: isDarkMode ? '#9ca3af' : '#6b7280',
-              fontSize: isMobile ? 16 : 14,
-              fontWeight: 500,
-              fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-              transition: 'all 0.2s',
-            }}
-            className={isMobile ? mobileClasses.button : ''}
-            onMouseOver={e => {
-              e.currentTarget.style.borderColor = isDarkMode ? 'rgba(156, 163, 175, 0.5)' : 'rgba(55, 65, 81, 0.5)';
-              e.currentTarget.style.color = isDarkMode ? '#d1d5db' : '#374151';
-            }}
-            onMouseOut={e => {
-              e.currentTarget.style.borderColor = isDarkMode ? 'rgba(156, 163, 175, 0.3)' : 'rgba(55, 65, 81, 0.3)';
-              e.currentTarget.style.color = isDarkMode ? '#9ca3af' : '#6b7280';
-            }}>
-              <span style={{ fontSize: 14 }}>{isDarkMode ? '☀️' : '🌙'}</span>
-              {isDarkMode ? 'Light' : 'Dark'}
-            </button>
-            
-            {/* Login link */}
-            <button onClick={() => scrollToSection('login')} style={{
-              color: isDarkMode ? '#d1d5db' : '#374151',
-              textDecoration: 'none',
-              fontSize: isMobile ? 14 : 16,
-              fontWeight: 500,
-              fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-              letterSpacing: '-0.01em',
-              transition: 'color 0.2s',
-              padding: isMobile ? '10px 14px' : '8px 16px',
-              borderRadius: isMobile ? 12 : 8,
-              border: `1px solid ${isDarkMode ? 'rgba(156, 163, 175, 0.3)' : 'rgba(55, 65, 81, 0.3)'}`,
-              background: 'transparent',
-              cursor: 'pointer',
-            }}
-            className={isMobile ? mobileClasses.button : ''}
-            onMouseOver={e => {
-              e.currentTarget.style.color = isDarkMode ? '#fff' : '#111827';
-              e.currentTarget.style.borderColor = isDarkMode ? 'rgba(156, 163, 175, 0.5)' : 'rgba(55, 65, 81, 0.5)';
-            }}
-            onMouseOut={e => {
-              e.currentTarget.style.color = isDarkMode ? '#d1d5db' : '#374151';
-              e.currentTarget.style.borderColor = isDarkMode ? 'rgba(156, 163, 175, 0.3)' : 'rgba(55, 65, 81, 0.3)';
-            }}>
-              Log in
-            </button>
-            
-            {/* CTA button */}
-            <button style={{
-              background: 'linear-gradient(135deg, #a78bfa 0%, #ec4899 50%, #f59e0b 100%)',
-              color: '#fff',
-              fontWeight: isMobile ? 700 : 600,
-              fontSize: isMobile ? 14 : 16,
-              border: 'none',
-              borderRadius: isMobile ? 12 : 8,
-              padding: isMobile ? '12px 16px' : '10px 20px',
-              cursor: 'pointer',
-              boxShadow: '0 4px 16px 0 rgba(168,139,250,0.25)',
-              transition: 'all 0.2s',
-              fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-              letterSpacing: '-0.01em',
-            }}
-            className={isMobile ? mobileClasses.cta : ''}
-            onMouseOver={e => {
-              if (!isMobile) {
-              e.currentTarget.style.boxShadow = '0 6px 24px 0 rgba(168,139,250,0.35)';
-              e.currentTarget.style.transform = 'translateY(-1px)';
-              }
-            }}
-            onMouseOut={e => {
-              if (!isMobile) {
-              e.currentTarget.style.boxShadow = '0 4px 16px 0 rgba(168,139,250,0.25)';
-              e.currentTarget.style.transform = 'translateY(0)';
-              }
-            }}>
-              Get started now
-            </button>
-          </div>
-        </div>
-        
-        {/* Mobile Menu Overlay */}
-        {isMobile && mobileMenuOpen && (
-        <div style={{
-            position: 'fixed',
-                  top: 0,
-                  left: 0,
-                  right: 0,
-            bottom: 0,
-            background: isDarkMode ? 'rgba(0, 0, 0, 0.95)' : 'rgba(255, 255, 255, 0.95)',
-            backdropFilter: 'blur(10px)',
-            zIndex: 999,
-                    display: 'flex',
-            flexDirection: 'column',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-            padding: '80px 20px 40px 20px'
-                }}>
-            <button
-              onClick={() => setMobileMenuOpen(false)}
-              style={{
-                    position: 'absolute',
-                top: 20,
-                right: 20,
-                background: 'transparent',
-                border: 'none',
-                color: isDarkMode ? '#fff' : '#000',
-                fontSize: 32,
-                cursor: 'pointer',
-                padding: '8px',
-                borderRadius: '8px'
-              }}
-            >
-              ✕
-            </button>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 24, alignItems: 'center', width: '100%', maxWidth: 300 }}>
-              <button onClick={() => { scrollToSection('why-choose'); setMobileMenuOpen(false); }} style={{
-                background: 'transparent',
-                border: 'none',
-                color: isDarkMode ? '#fff' : '#111827',
-                    fontSize: 20,
-                      fontWeight: 600,
-                cursor: 'pointer',
-                padding: '12px 16px',
-                borderRadius: '12px',
-                transition: 'all 0.2s',
-                      width: '100%',
-                textAlign: 'center'
-              }}
-              onMouseOver={e => e.currentTarget.style.background = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)'}
-              onMouseOut={e => e.currentTarget.style.background = 'transparent'}>
-                Why Choose
-              </button>
-              <button onClick={() => { scrollToSection('features'); setMobileMenuOpen(false); }} style={{
-                background: 'transparent',
-                border: 'none',
-                color: isDarkMode ? '#fff' : '#111827',
-                fontSize: 20,
-                      fontWeight: 600,
-                cursor: 'pointer',
-                padding: '12px 16px',
-                borderRadius: '12px',
-                transition: 'all 0.2s',
-                      width: '100%',
-                textAlign: 'center'
-              }}
-              onMouseOver={e => e.currentTarget.style.background = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)'}
-              onMouseOut={e => e.currentTarget.style.background = 'transparent'}>
-                Features
-              </button>
-              <button onClick={() => { scrollToSection('how-it-works'); setMobileMenuOpen(false); }} style={{
-                background: 'transparent',
-                border: 'none',
-                color: isDarkMode ? '#fff' : '#111827',
-                    fontSize: 20,
-                fontWeight: 600,
-                cursor: 'pointer',
-                padding: '12px 16px',
-                borderRadius: '12px',
-                transition: 'all 0.2s',
-                      width: '100%',
-                textAlign: 'center'
-              }}
-              onMouseOver={e => e.currentTarget.style.background = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)'}
-              onMouseOut={e => e.currentTarget.style.background = 'transparent'}>
-                How It Works
-              </button>
-              <button onClick={() => { scrollToSection('demo'); setMobileMenuOpen(false); }} style={{
-                background: 'transparent',
-                border: 'none',
-                color: isDarkMode ? '#fff' : '#111827',
-                    fontSize: 20,
-                        fontWeight: 600, 
-                cursor: 'pointer',
-                padding: '12px 16px',
-                borderRadius: '12px',
-                transition: 'all 0.2s',
-                      width: '100%',
-                textAlign: 'center'
-              }}
-              onMouseOver={e => e.currentTarget.style.background = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)'}
-              onMouseOut={e => e.currentTarget.style.background = 'transparent'}>
-                Demo
-              </button>
-              <button onClick={() => { scrollToSection('pricing'); setMobileMenuOpen(false); }} style={{
-                background: 'transparent',
-                border: 'none',
-                color: isDarkMode ? '#fff' : '#111827',
-                    fontSize: 20,
-                fontWeight: 600,
-                cursor: 'pointer',
-                padding: '12px 16px',
-                borderRadius: '12px',
-                transition: 'all 0.2s',
-                      width: '100%',
-                textAlign: 'center'
-              }}
-              onMouseOver={e => e.currentTarget.style.background = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)'}
-              onMouseOut={e => e.currentTarget.style.background = 'transparent'}>
-                Pricing
-              </button>
-              <button onClick={() => { scrollToSection('login'); setMobileMenuOpen(false); }} style={{
-                background: 'transparent',
-                border: 'none',
-                color: isDarkMode ? '#fff' : '#111827',
-                    fontSize: 20,
-                fontWeight: 600,
-                cursor: 'pointer',
-                padding: '12px 16px',
-                borderRadius: '12px',
-                transition: 'all 0.2s',
-                width: '100%',
-                textAlign: 'center'
-              }}
-              onMouseOver={e => e.currentTarget.style.background = isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)'}
-              onMouseOut={e => e.currentTarget.style.background = 'transparent'}>
-                Log in
-              </button>
-                    </div>
-                  </div>
-        )}
         
         {/* Hero content (zIndex: 1) */}
         <div style={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: 1200, margin: '0 auto', textAlign: 'center' }}>
@@ -902,8 +998,8 @@ export default function Home() {
             </div>
           </div>
           
-      {/* In-Depth Tutorials Section */}
-            <div style={{
+            {/* In-Depth Tutorials Section */}
+      <div id="tutorials" style={{
         padding: isMobile ? '80px 20px' : '120px 40px',
         background: isDarkMode ? 'linear-gradient(180deg, #0a0a0a 0%, #000000 100%)' : 'linear-gradient(180deg, #f8fafc 0%, #ffffff 100%)',
         position: 'relative'
@@ -1058,7 +1154,7 @@ fetch('https://api.scrollie.com/v1/settings', {
 
 
       {/* Simple FAQ Section */}
-          <div style={{
+          <div id="faq" style={{
         padding: isMobile ? '80px 20px' : '120px 40px',
         background: isDarkMode ? 'linear-gradient(180deg, #0a0a0a 0%, #000000 100%)' : 'linear-gradient(180deg, #f8fafc 0%, #ffffff 100%)',
         position: 'relative'
@@ -1313,8 +1409,10 @@ fetch('https://api.scrollie.com/v1/settings', {
               </div>
             </div>
             
-      {/* Social Proof Section */}
-      <div style={{
+
+
+      {/* Testimonials Section */}
+      <div id="testimonials" style={{
         padding: isMobile ? '80px 20px' : '120px 40px',
         background: isDarkMode ? 'linear-gradient(180deg, #0a0a0a 0%, #000000 100%)' : 'linear-gradient(180deg, #f8fafc 0%, #ffffff 100%)',
         position: 'relative'
@@ -1347,51 +1445,70 @@ fetch('https://api.scrollie.com/v1/settings', {
             </div>
           </div>
 
-          {/* Testimonials */}
+          {/* Testimonials Grid */}
           <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: isMobile ? 24 : 32 }}>
-            <div style={{ background: isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.8)', borderRadius: 16, padding: isMobile ? '24px' : '32px', border: `1px solid ${isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`, backdropFilter: 'blur(10px)' }}>
+            <div style={{
+              background: isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.8)',
+              borderRadius: 16,
+              padding: isMobile ? '24px' : '32px',
+              border: `1px solid ${isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`,
+              backdropFilter: 'blur(10px)'
+            }}>
               <div style={{ display: 'flex', gap: 4, marginBottom: 16 }}>
-                {[1, 2, 3, 4, 5].map(star => (
-                  <span key={star} style={{ color: '#f59e0b', fontSize: 18 }}>⭐</span>
-                ))}
-            </div>
+                <span style={{ color: '#f59e0b', fontSize: 18 }}>⭐</span>
+                <span style={{ color: '#f59e0b', fontSize: 18 }}>⭐</span>
+                <span style={{ color: '#f59e0b', fontSize: 18 }}>⭐</span>
+                <span style={{ color: '#f59e0b', fontSize: 18 }}>⭐</span>
+                <span style={{ color: '#f59e0b', fontSize: 18 }}>⭐</span>
+              </div>
               <p style={{ color: isDarkMode ? '#d1d5db' : '#374151', lineHeight: 1.6, fontSize: isMobile ? 14 : 16, marginBottom: 16 }}>
                 "SCROLLIE saved me hours every week. The AI voice is incredible!"
               </p>
-              <div style={{ fontWeight: 600, color: isDarkMode ? '#fff' : '#111827', fontSize: isMobile ? 14 : 16 }}>
-                - Sarah M.
+              <div style={{ fontWeight: 600, color: isDarkMode ? '#fff' : '#111827', fontSize: isMobile ? 14 : 16 }}>- Sarah M.</div>
             </div>
-          </div>
-            <div style={{ background: isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.8)', borderRadius: 16, padding: isMobile ? '24px' : '32px', border: `1px solid ${isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`, backdropFilter: 'blur(10px)' }}>
+
+            <div style={{
+              background: isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.8)',
+              borderRadius: 16,
+              padding: isMobile ? '24px' : '32px',
+              border: `1px solid ${isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`,
+              backdropFilter: 'blur(10px)'
+            }}>
               <div style={{ display: 'flex', gap: 4, marginBottom: 16 }}>
-                {[1, 2, 3, 4, 5].map(star => (
-                  <span key={star} style={{ color: '#f59e0b', fontSize: 18 }}>⭐</span>
-                ))}
-            </div>
+                <span style={{ color: '#f59e0b', fontSize: 18 }}>⭐</span>
+                <span style={{ color: '#f59e0b', fontSize: 18 }}>⭐</span>
+                <span style={{ color: '#f59e0b', fontSize: 18 }}>⭐</span>
+                <span style={{ color: '#f59e0b', fontSize: 18 }}>⭐</span>
+                <span style={{ color: '#f59e0b', fontSize: 18 }}>⭐</span>
+              </div>
               <p style={{ color: isDarkMode ? '#d1d5db' : '#374151', lineHeight: 1.6, fontSize: isMobile ? 14 : 16, marginBottom: 16 }}>
                 "Best investment for my business. Content creation is now effortless."
               </p>
-              <div style={{ fontWeight: 600, color: isDarkMode ? '#fff' : '#111827', fontSize: isMobile ? 14 : 16 }}>
-                - Mike R.
+              <div style={{ fontWeight: 600, color: isDarkMode ? '#fff' : '#111827', fontSize: isMobile ? 14 : 16 }}>- Mike R.</div>
             </div>
-          </div>
-            <div style={{ background: isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.8)', borderRadius: 16, padding: isMobile ? '24px' : '32px', border: `1px solid ${isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`, backdropFilter: 'blur(10px)' }}>
+
+            <div style={{
+              background: isDarkMode ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.8)',
+              borderRadius: 16,
+              padding: isMobile ? '24px' : '32px',
+              border: `1px solid ${isDarkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`,
+              backdropFilter: 'blur(10px)'
+            }}>
               <div style={{ display: 'flex', gap: 4, marginBottom: 16 }}>
-                {[1, 2, 3, 4, 5].map(star => (
-                  <span key={star} style={{ color: '#f59e0b', fontSize: 18 }}>⭐</span>
-                ))}
-        </div>
+                <span style={{ color: '#f59e0b', fontSize: 18 }}>⭐</span>
+                <span style={{ color: '#f59e0b', fontSize: 18 }}>⭐</span>
+                <span style={{ color: '#f59e0b', fontSize: 18 }}>⭐</span>
+                <span style={{ color: '#f59e0b', fontSize: 18 }}>⭐</span>
+                <span style={{ color: '#f59e0b', fontSize: 18 }}>⭐</span>
+              </div>
               <p style={{ color: isDarkMode ? '#d1d5db' : '#374151', lineHeight: 1.6, fontSize: isMobile ? 14 : 16, marginBottom: 16 }}>
                 "The templates are beautiful and the voice generation is spot-on."
               </p>
-              <div style={{ fontWeight: 600, color: isDarkMode ? '#fff' : '#111827', fontSize: isMobile ? 14 : 16 }}>
-                - Emma T.
-      </div>
+              <div style={{ fontWeight: 600, color: isDarkMode ? '#fff' : '#111827', fontSize: isMobile ? 14 : 16 }}>- Emma T.</div>
+            </div>
           </div>
         </div>
       </div>
-      </div>
-
 
 
       {/* Login Section */}
